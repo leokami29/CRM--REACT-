@@ -1,18 +1,17 @@
 import { useState, useEffect } from 'react'
+import Cliente from '../Components/Cliente'
 
+const inicio = () => {
 
-const Inicio = () => {
-
-    const [clientes, setClientes] = useState([])
+    const [clientes, setclientes] = useState([])
 
     useEffect(() => {
         const obtenerClientesAPI = async () => {
             try {
-                const url = 'localhost:4000/clientes'
-
+                const url = 'http://localhost:4000/clientes'
                 const respuesta = await fetch(url)
                 const resultado = await respuesta.json()
-                setClientes(resultado)
+                setclientes(resultado)
             } catch (error) {
                 console.log(error)
             }
@@ -21,9 +20,26 @@ const Inicio = () => {
         obtenerClientesAPI()
     }, [])
 
-    
+    const handleEliminar = async id => {
+        const confirmar = confirm("¿Deseas eliminar este cliente?")
+        //Eliminar 
+        if (confirmar) {
+            try {
+                const url = `http://localhost:4000/clientes/${id}`
+                const respuesta = await fetch( url, {
+                    method: 'DELETE'
+                })
+                await respuesta.json()
+                const arrayClientes = clientes.filter(cliente => cliente.id !== id)
+                setclientes(arrayClientes)
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }
 
     return (
+
         <>
             <h1 className="font-black text-4xl text-blue-900">Clientes</h1>
             <p className="mt-3">Administra tus clientes</p>
@@ -40,11 +56,18 @@ const Inicio = () => {
                 </thead>
 
                 <tbody>
-                  
+                    {clientes.map(cliente => (
+                        <Cliente
+                            key={cliente.id}
+                            cliente={cliente}
+                            handleEliminar={handleEliminar}
+                        />
+                    ))}
                 </tbody>
             </table>
         </>
+
     )
 }
 
-export default Inicio
+export default inicio

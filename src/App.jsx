@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Layout from './Layout/Layout'
-import Inicio from './Pages/inicio'
-import NuevoCliente from './Pages/NuevoCliente'
-import EditarCliente from './Pages/EditarCliente'
+import Inicio from './pages/inicio'
+import NuevoCliente from './pages/NuevoCliente'
+import EditarCliente from './pages/EditarCliente'
+import VerCliente from './pages/vercliente'
 
 
 
@@ -17,6 +18,7 @@ function App() {
               <Route index element={<Inicio/>}/>
               <Route path='nuevo' element={<NuevoCliente/>}/>
               <Route path='editar/:id' element={<EditarCliente/>}/>
+              <Route path=':id' element={<VerCliente/>}/>
             </Route>
 
         </Routes>
